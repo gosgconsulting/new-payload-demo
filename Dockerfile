@@ -30,9 +30,9 @@ COPY . .
 
 # Add these lines to pass environment variables during build
 ARG PAYLOAD_SECRET
-ARG DATABASE_URL
+ARG DATABASE_URI
 ENV PAYLOAD_SECRET=$PAYLOAD_SECRET
-ENV DATABASE_URL=$DATABASE_URL
+ENV DATABASE_URI=$DATABASE_URI
 
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED 1
