@@ -1,10 +1,9 @@
-import { migrate } from 'payload/database'
 import payload from 'payload'
 import pg from 'pg'
 
 const { Pool } = pg
 
-const DATABASE_URL = process.env.DATABASE_URL
+const DATABASE_URL = process.env.DATABASE_URI // match your Docker ENV
 const PAYLOAD_SECRET = process.env.PAYLOAD_SECRET
 
 const pool = new Pool({
@@ -25,15 +24,14 @@ const run = async () => {
     const tablesExist = await hasTables()
 
     if (tablesExist) {
-      console.log('✅ Tables already exist. Skipping migration.')
+      console.log('✅ Tables already exist. Skipping Payload init.')
     } else {
-      console.log('⏳ No tables found. Running Payload migration...')
+      console.log('⏳ No tables found. Running Payload init...')
       await payload.init({
         secret: PAYLOAD_SECRET,
         local: true,
       })
-      await migrate()
-      console.log('✅ Migration completed.')
+      console.log('✅ Payload initialized, tables should now be created.')
     }
 
     await pool.end()
