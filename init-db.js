@@ -1,9 +1,14 @@
 import payload from 'payload'
 import pg from 'pg'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 const { Pool } = pg
 
-const DATABASE_URL = process.env.DATABASE_URI // match your Docker ENV
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+const DATABASE_URL = process.env.DATABASE_URI
 const PAYLOAD_SECRET = process.env.PAYLOAD_SECRET
 
 const pool = new Pool({
@@ -30,6 +35,7 @@ const run = async () => {
       await payload.init({
         secret: PAYLOAD_SECRET,
         local: true,
+        config: path.resolve(__dirname, 'src', 'payload.config.js'),
       })
       console.log('✅ Payload initialized, tables should now be created.')
     }
