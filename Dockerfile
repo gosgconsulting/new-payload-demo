@@ -58,7 +58,6 @@ RUN adduser --system --uid 1001 nextjs
 
 # Remove this line if you do not have this folder
 COPY --from=builder /app/public ./public
-RUN chown -R 1001:1001 /app/public/media
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
@@ -74,6 +73,9 @@ USER nextjs
 EXPOSE 3000
 
 ENV PORT 3000
+
+# Set the entrypoint to the script and the command to your app's start command
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
